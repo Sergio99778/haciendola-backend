@@ -5,9 +5,13 @@ import { AppService } from './app.service';
 // Extra modules
 
 import { PassportModule } from '@nestjs/passport';
+import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ProductsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
