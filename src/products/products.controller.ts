@@ -1,12 +1,18 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dtos/createProduct.dto';
 
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
-  // CRUD Products
-
   @Get()
   async findAll() {
     return await this.productsService.findAll();
@@ -25,5 +31,10 @@ export class ProductsController {
   @Put(':id')
   async update(@Param('id') id: number, @Body() product: CreateProductDto) {
     return await this.productsService.update(id, product);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: number) {
+    return await this.productsService.remove(id);
   }
 }

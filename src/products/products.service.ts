@@ -17,7 +17,6 @@ export class ProductsService {
     const product = await this.productRepository.findOneBy({
       SKU: id,
     });
-    console.log(product);
     if (!product) {
       throw new NotFoundException(`Product with SKU ${id} not found`);
     }
