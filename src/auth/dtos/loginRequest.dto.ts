@@ -1,14 +1,6 @@
 import { IsString, Length } from 'class-validator';
 
-export class RegisterRequestDto {
-  @IsString()
-  @Length(3, 255)
-  firstName: string;
-
-  @IsString()
-  @Length(3, 255)
-  lastName: string;
-
+export class LoginRequestDto {
   @IsString()
   @Length(3, 255)
   email: string;

@@ -29,15 +29,16 @@ export class AuthService {
     return user;
   }
 
-  async login(user: User): Promise<AccessToken> {
-    const payload = { email: user.email, id: user.id };
+  async login(email: string, password: string): Promise<AccessToken> {
+    const user = await this.validateUser(email, password);
+    const payload = { email: user.email, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
 
   async register(user: RegisterRequestDto): Promise<AccessToken> {
-    const existingUser = this.usersService.findOneByEmail(user.email);
+    const existingUser = await this.usersService.findOneByEmail(user.email);
     if (existingUser) {
       throw new BadRequestException('User already exists');
     }
@@ -48,6 +49,6 @@ export class AuthService {
       password: hashedPassword,
     });
     await this.usersService.create(newUser);
-    return this.login(newUser);
+    return this.login(newUser.email, user.password);
   }
 }
