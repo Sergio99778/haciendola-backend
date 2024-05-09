@@ -29,7 +29,7 @@ import { JwtStrategy } from './auth/strategy/jwt.strategy';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [Product, User],
-      synchronize: true, // not use in production
+      // synchronize: true, // not use in production
     }),
     UsersModule,
     AuthModule,

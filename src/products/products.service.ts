@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -13,9 +13,16 @@ export class ProductsService {
     return this.productRepository.find();
   }
 
-  // findOne(id: number): Promise<Product | null> {
-  //   return this.productRepository.findOne({ SKU: id });
-  // }
+  async findOne(id: number): Promise<Product | null> {
+    const product = await this.productRepository.findOneBy({
+      SKU: id,
+    });
+    console.log(product);
+    if (!product) {
+      throw new NotFoundException(`Product with SKU ${id} not found`);
+    }
+    return product;
+  }
 
   async remove(id: number): Promise<void> {
     await this.productRepository.delete(id);
@@ -25,15 +32,8 @@ export class ProductsService {
     return this.productRepository.save(product);
   }
 
-  // async update(id: number, product: Product): Promise<Product> {
-  //   await this.productRepository.update(id, product);
-  //   return this.productRepository.findOne(id);
-  // }
-
-  async findBySKU(SKU: number): Promise<Product> {
-    return this.productRepository
-      .createQueryBuilder('product')
-      .where('product.SKU = :SKU', { SKU })
-      .getOne();
+  async update(id: number, product: Product): Promise<Product> {
+    await this.productRepository.update(id, product);
+    return this.productRepository.findOneBy({ SKU: id });
   }
 }
