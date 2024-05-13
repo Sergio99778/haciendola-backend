@@ -14,7 +14,7 @@ export class CreateProductDto {
   Title: string;
 
   @IsString()
-  @Length(3, 255)
+  @Length(3, 3000)
   Description: string;
 
   @IsNumber()
